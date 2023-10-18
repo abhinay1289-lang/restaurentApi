@@ -42,17 +42,14 @@ public class StudentServiceImpl implements StudentService {
                 () ->
                         new InvalidCredentialsException(
                                 String.format("The requested user %s not found", loginRequest.getUsername()));
-        UserdetailsBO userCredentials =
-                userCredentialsRepository
-                        .findByEmailId(loginRequest.getUsername())
-                        .orElseThrow(expSupplier);
-       
-        System.out.println("loginpassword"+loginRequest.getPassword());
-        System.out.println("userpassword"+userCredentials.getPassword());
+        UserdetailsBO userdetailsBO= userCredentialsRepository
+                .findByEmailId(loginRequest.getUsername())
+                .orElseThrow(expSupplier);
+
+        System.out.println(userdetailsBO);
 
 //        boolean isValid = encoder.matches(loginRequest.getPassword(), userCredentials.getPassword());
 //        if (!isValid) throw new InvalidCredentialsException("Invalid Credentials");
-
         return userCredentialsRepository
                 .findByEmailId(loginRequest.getUsername())
                 .orElseThrow(expSupplier);
