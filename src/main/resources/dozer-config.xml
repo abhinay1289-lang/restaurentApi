@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+      http://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <mapping>
+        <class-a>com.practice.spring.entity.NonVegBO</class-a>
+        <class-b>com.practice.spring.dto.LookUpDto</class-b>
+        <field custom-converter="com.practice.spring.converter.SjdDozerConverter">
+            <a>name</a>
+            <b>sjdId</b>
+        </field>
+        <field custom-converter="com.practice.spring.converter.SjdDozerConverter">
+            <a>sjd</a>
+            <b>sjdName</b>
+        </field>
+        <field custom-converter="com.peopletech.fractionable.converter.CandidateDozerConverter">
+            <a>candidate</a>
+            <b>candidateId</b>
+        </field>
+        <field custom-converter="com.peopletech.fractionable.converter.LookupDozerConverter">
+            <a>candidateStatus</a>
+            <b>candidateStatusId</b>
+        </field>
+    </mapping>
+
+
+
+</mappings>
