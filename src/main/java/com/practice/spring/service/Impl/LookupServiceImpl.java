@@ -66,7 +66,10 @@ public class LookupServiceImpl implements LookupService {
 
     @Override
     public <T, I> List<LookUpDto> getLookupValues(LookupType type) {
-        return null;
+            List<BiryaniBO> listofbiryani = biryaniRepository.findAll();
+        return  StreamSupport.stream(listofbiryani.spliterator(), false)
+                .map(s -> mapper.map(s, LookUpDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -88,7 +91,6 @@ public class LookupServiceImpl implements LookupService {
         Iterable<T> result =
                 repo.saveAll(
                         lookupData.stream().map(s -> mapper.map(s, destClass)).collect(Collectors.toList()));
-        System.out.println("destination class:"+result);
         return StreamSupport.stream(result.spliterator(), false)
                 .map(s -> mapper.map(s, LookUpDto.class))
                 .collect(Collectors.toList());

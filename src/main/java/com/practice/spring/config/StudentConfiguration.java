@@ -6,15 +6,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -23,6 +16,7 @@ import org.springframework.web.filter.CorsFilter;
 
 
 @Configuration
+@EnableWebSecurity
 public class StudentConfiguration{
 
     @Bean
@@ -38,32 +32,18 @@ public class StudentConfiguration{
                 .cors()
                 .and()
                 .authorizeRequests()
-                .requestMatchers("/actuator/**","/security/login")
-
+                .requestMatchers("/actuator/**","/security/login","/lookup/all","/lookup/biryani")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .addFilterBefore(corsFilter(), BasicAuthenticationFilter.class)
-                .httpBasic(Customizer.withDefaults());
-
+                .httpBasic()
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true);
         return http.build();
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-
-
-        UserDetails admin = User.builder().username("restaurent").password(passwordEncoder().encode("restaurent")).roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin);
     }
 
     @Bean
@@ -71,7 +51,7 @@ public class StudentConfiguration{
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000"); // Replace with your allowed origins
+        config.addAllowedOriginPattern("*"); // Replace with your allowed origins
         config.addAllowedHeader("*");  // You can specify specific headers here
         config.addAllowedMethod("*");  // You can specify specific HTTP methods here
         source.registerCorsConfiguration("/**", config); // Apply this configuration to all paths

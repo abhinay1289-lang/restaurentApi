@@ -14,7 +14,5 @@ public interface LookupService {
 
   public <T, I> List<LookUpDto> saveLookupData(List<LookUpDto> lookupData, LookupType type);
 
-//  public List<SkillBO> saveAllSkills(List<LookUpDto> lookupData);
-
   public <T, I> void deleteLookup(String type, Integer id);
 }

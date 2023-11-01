@@ -6,7 +6,10 @@ import com.practice.spring.service.LookupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/lookup")
@@ -21,5 +24,16 @@ public class LookUpController {
         List<LookUpDto> response = lookupService.saveLookupData(lookupData, LookupType.get(type));
         lookupService.clearCache(LookupType.get(type));
         return response;
+    }
+    @GetMapping("/{type}")
+    public Map<String, List<LookUpDto>> getLookupData(@PathVariable("type") String type ){
+        Map<String, List<LookUpDto>> result = new HashMap<>();
+        if ("all".equalsIgnoreCase(type)) {
+            Stream.of(LookupType.values())
+                    .forEach(lookup -> result.put(lookup.getType(), lookupService.getLookupValues(lookup)));
+        } else {
+            result.put(type, lookupService.getLookupValues(LookupType.get(type)));
+        }
+        return result;
     }
 }
