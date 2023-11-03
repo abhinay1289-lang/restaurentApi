@@ -11,6 +11,7 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumMap;
@@ -98,6 +99,10 @@ public class LookupServiceImpl implements LookupService {
 
     @Override
     public <T, I> void deleteLookup(String type, Integer id) {
-
+        if (LookupType.isLookup(type)) {
+            LookupInfo<CrudRepository, Class> lookupInfo = lookupMap.get(LookupType.get(type));
+            JpaRepository<T, I> repo = (JpaRepository<T, I>)  lookupInfo.getRepo();
+            repo.deleteById((I) id);
+        }
     }
 }

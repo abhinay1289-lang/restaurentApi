@@ -1,9 +1,11 @@
 package com.practice.spring.controller;
 
 import com.practice.spring.constants.LookupType;
+import com.practice.spring.dto.AppResponseDto;
 import com.practice.spring.dto.LookUpDto;
 import com.practice.spring.service.LookupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,5 +37,11 @@ public class LookUpController {
             result.put(type, lookupService.getLookupValues(LookupType.get(type)));
         }
         return result;
+    }
+    @DeleteMapping("/{type}/{id}")
+    public AppResponseDto deleteLookupDataById(@PathVariable("type") String type,@PathVariable("id") Integer id){
+        lookupService.deleteLookup(type,id);
+        lookupService.clearCache(LookupType.get(type));
+        return new AppResponseDto(null, "Data deleted successfully");
     }
 }
