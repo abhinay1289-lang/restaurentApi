@@ -27,6 +27,14 @@ public class LookUpController {
         lookupService.clearCache(LookupType.get(type));
         return response;
     }
+
+    @PatchMapping("/{type}/{id}")
+    public AppResponseDto updateLookupDataById(@PathVariable("type") String type, @PathVariable("id") Integer id){
+        lookupService.saveLookupDataById(id,LookupType.get(type));
+        lookupService.clearCache(LookupType.get(type));
+        return new AppResponseDto(null, "item updated successfully");
+    }
+
     @GetMapping("/{type}")
     public Map<String, List<LookUpDto>> getLookupData(@PathVariable("type") String type ){
         Map<String, List<LookUpDto>> result = new HashMap<>();
@@ -44,4 +52,5 @@ public class LookUpController {
         lookupService.clearCache(LookupType.get(type));
         return new AppResponseDto(null, "Data deleted successfully");
     }
+
 }

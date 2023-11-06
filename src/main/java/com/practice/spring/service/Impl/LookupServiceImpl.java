@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -67,14 +68,16 @@ public class LookupServiceImpl implements LookupService {
 
     @Override
     public <T, I> List<LookUpDto> getLookupValues(LookupType type) {
-            List<BiryaniBO> listofbiryani = biryaniRepository.findAll();
+        LookupInfo<JpaRepository, Class> lookupInfo = lookupMap.get(type);
+        JpaRepository<T, I> repo = (JpaRepository<T, I>) lookupInfo.getRepo();
+            List<T> listofbiryani = repo.findAll();
         return  StreamSupport.stream(listofbiryani.spliterator(), false)
                 .map(s -> mapper.map(s, LookUpDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<LookUpDto> getSkills() {
+    public LookUpDto getSkills() {
         return null;
     }
 
@@ -82,6 +85,16 @@ public class LookupServiceImpl implements LookupService {
     @CacheEvict(key = "#type", cacheNames = "lookup")
     public void clearCache(LookupType type) {
 
+    }
+
+    @Override
+    public <T, I>LookUpDto saveLookupDataById(I id, LookupType type) {
+        LookupInfo<JpaRepository, Class> lookupInfo = lookupMap.get(type);
+        JpaRepository<T, I> repo = (JpaRepository<T, I>) lookupInfo.getRepo();
+        Optional<T>  item = repo.findById(id);
+        
+
+        return null;
     }
 
     @Override

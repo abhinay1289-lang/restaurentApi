@@ -8,9 +8,11 @@ import java.util.List;
 public interface LookupService {
   public <T, I> List<LookUpDto> getLookupValues(LookupType type);
 
-  public List<LookUpDto> getSkills();
+  public LookUpDto getSkills();
 
   public void clearCache(LookupType type);
+
+  public <T, I> LookUpDto saveLookupDataById(I id,LookupType lookupType);
 
   public <T, I> List<LookUpDto> saveLookupData(List<LookUpDto> lookupData, LookupType type);
 
