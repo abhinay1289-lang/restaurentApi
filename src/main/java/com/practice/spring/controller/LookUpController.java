@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @RestController
@@ -53,4 +54,9 @@ public class LookUpController {
         return new AppResponseDto(null, "Data deleted successfully");
     }
 
+    @GetMapping("/prices")
+    public <T, I> List<LookUpDto> getLookupData(@RequestParam("integers") List<Integer> integers ,@RequestParam("type") String type)
+    {
+        return lookupService.getLookupData(integers,LookupType.get(type));
+    }
 }

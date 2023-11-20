@@ -7,6 +7,7 @@ import com.practice.spring.repository.*;
 import com.practice.spring.service.LookupService;
 import com.practice.spring.util.LookupInfo;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.metamodel.EntityType;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -92,7 +93,7 @@ public class LookupServiceImpl implements LookupService {
         LookupInfo<JpaRepository, Class> lookupInfo = lookupMap.get(type);
         JpaRepository<T, I> repo = (JpaRepository<T, I>) lookupInfo.getRepo();
         Optional<T>  item = repo.findById(id);
-        
+
 
         return null;
     }
@@ -117,5 +118,26 @@ public class LookupServiceImpl implements LookupService {
             JpaRepository<T, I> repo = (JpaRepository<T, I>)  lookupInfo.getRepo();
             repo.deleteById((I) id);
         }
+    }
+
+    @Override
+    public List<LookUpDto> getLookupData(List<Integer> integers, LookupType type) {
+        LookupInfo<JpaRepository, Class> lookupInfo = lookupMap.get(type);
+        JpaRepository repo = (JpaRepository) lookupInfo.getRepo();
+
+        List<LookUpDto> result = integers.stream()
+                .map(data -> repo.findById(data))
+                .filter(Optional::isPresent)
+                .map(optional -> mapEntityToDto((BiryaniBO) optional.get()))
+                .collect(Collectors.toList());
+        return result;
+    }
+    private LookUpDto mapEntityToDto(BiryaniBO entity) {
+        LookUpDto dto = new LookUpDto();
+        dto.setId(entity.getId());
+        dto.setType(entity.getType());
+        dto.setName(entity.getName());
+        dto.setPrice(entity.getPrice());
+        return dto;
     }
 }
