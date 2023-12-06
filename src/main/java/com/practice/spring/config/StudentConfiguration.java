@@ -32,7 +32,7 @@ public class StudentConfiguration{
                 .cors()
                 .and()
                 .authorizeRequests()
-                .requestMatchers("/actuator/**","/security/login","/lookup/all","/lookup/biryani","/lookup/biryani/{id}")
+                .requestMatchers("/actuator/**","/security/login","/lookup/all","/lookup/biryani","/lookup/biryani/{id}","/lookup/curries","/lookup/starters","/lookup/friedRiceAndNoodles","/lookup/rice","/lookup/rotis","/lookup/drinks")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
