@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -42,8 +44,11 @@ public class StudentServiceImpl implements StudentService {
                 () ->
                         new InvalidCredentialsException(
                                 String.format("The requested user %s not found", loginRequest.getUsername()));
+        UserdetailsBO userdetailsBO = userCredentialsRepository.findByEmailIdIgnoreCase(loginRequest.getUsername()).orElseThrow(expSupplier);
+        boolean flag  = Objects.equals(userdetailsBO.getPassword(), loginRequest.getPassword());
+        if (!flag) throw new InvalidCredentialsException("Invalid Credentials");
         return userCredentialsRepository
-                .findByEmailId(loginRequest.getUsername())
+                .findByEmailIdIgnoreCase(loginRequest.getUsername())
                 .orElseThrow(expSupplier);
     }
 

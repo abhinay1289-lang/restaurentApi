@@ -51,10 +51,10 @@ public class StudentConfiguration{
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*"); // Replace with your allowed origins
-        config.addAllowedHeader("*");  // You can specify specific headers here
-        config.addAllowedMethod("*");  // You can specify specific HTTP methods here
-        source.registerCorsConfiguration("/**", config); // Apply this configuration to all paths
+        config.addAllowedOriginPattern("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 
