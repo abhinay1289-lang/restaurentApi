@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Bill generation</title>
+</head>
+<body>
+    <h1 style="text-align:center">ANUSHA DHABA AND RESTAURENT</h1>
+    <h3 style="text-align:center">GAREPALLY</h3>
+    <h3 style="text-align:center">JAYASHANKAR BHUPALPALLY</h3>
+    <h3 style="text-align:center">9100793183</h3>
+    <p style="text-align:center">------------------------------------------------------------------------</p>
+    <p><span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span></p>
+    <p><span th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss')}"></span></p>
+    <p th:text="${customer_Id}">Custumer Id : 1</p>
+    <p style="text-align:center">------------------------------------------------------------------------</p>
+    <table style="width:100%">
+        <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item, iterStat : ${items}">
+            <td th:text="${item.name}">biryani</td>
+            <td th:text="${item.price}">0</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Total</p>
+    <p th:text="${total_price}"></p>
+</body>
+</html>
