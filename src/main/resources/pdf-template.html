@@ -3,33 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Bill generation</title>
+    <title>Bill generation</title>
 </head>
 <body>
-    <h1 style="text-align:center">ANUSHA DHABA AND RESTAURENT</h1>
-    <h3 style="text-align:center">GAREPALLY</h3>
-    <h3 style="text-align:center">JAYASHANKAR BHUPALPALLY</h3>
-    <h3 style="text-align:center">9100793183</h3>
-    <p style="text-align:center">------------------------------------------------------------------------</p>
-    <p><span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span></p>
-    <p><span th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss')}"></span></p>
-    <p th:text="${customer_Id}">Custumer Id : 1</p>
-    <p style="text-align:center">------------------------------------------------------------------------</p>
-    <table style="width:100%">
-        <thead>
-        <tr>
-            <th>Item Name</th>
-            <th>price</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item, iterStat : ${items}">
-            <td th:text="${item.name}">biryani</td>
-            <td th:text="${item.price}">0</td>
-        </tr>
-        </tbody>
-    </table>
-    <p>Total</p>
-    <p th:text="${total_price}"></p>
+<table style="width: 100%; max-width: 500px; margin: 0 auto; padding: 20px; border-collapse: collapse;">
+    <tr>
+        <td>
+            <h1 style="text-align:center">ANUSHA DHABA AND RESTAURENT</h1>
+            <h3 style="text-align:center">GAREPALLY</h3>
+            <h3 style="text-align:center">JAYASHANKAR BHUPALPALLY</h3>
+            <h3 style="text-align:center">9100793183</h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="text-align:center">-------------------------------------------------------------------------------------------</p>
+            <p><span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span></p>
+            <p><span th:text="${#dates.format(#dates.createNow(), 'HH:mm:ss')}"></span></p>
+            <div style="display:flex;justify-content: space-around;"><p>Bill no :[10]</p>
+                <p>Table no :[10]</p></div>
+
+            <p th:text="${customer_Id}">Custumer Id : 1</p>
+            <p style="text-align:center">-------------------------------------------------------------------------------------------</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <span style="text-align:left">Item Name</span>
+            <span>price</span>
+        </td>
+    </tr>
+    <tbody>
+    <tr th:each="item, iterStat : ${items}">
+        <td th:text="${item.name}">biryani</td>
+        <td th:text="${item.price}">0</td>
+    </tr>
+    </tbody>
+</table>
+<p style="text-align:center"><strong>Total :</strong>[total price]</p>
+<p style="text-align:center; margin-Top:100px">Thanks and visit again!!!</p>
 </body>
 </html>
